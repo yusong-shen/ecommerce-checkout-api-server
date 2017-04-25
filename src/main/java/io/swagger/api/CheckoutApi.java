@@ -169,12 +169,13 @@ public interface CheckoutApi {
     @ApiOperation(value = "Add a new item to the shopping cart", notes = "", response = Checkout.class, tags={ "cart", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
+        @ApiResponse(code = 404, message = "The cart does not exists", response = Checkout.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Checkout.class) })
     @RequestMapping(value = "/checkout/{checkoutId}/items",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Checkout> createItem(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Item to be added to the cart" ,required=true ) @RequestBody Product item);
+        @ApiParam(value = "Item to be added to the cart" ,required=true ) @RequestBody Product item) throws Exception;
 
 }
