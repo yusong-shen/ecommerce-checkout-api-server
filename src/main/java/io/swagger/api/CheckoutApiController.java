@@ -1,5 +1,7 @@
 package io.swagger.api;
 
+import java.util.ArrayList;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.data.AvailableCountriesData;
+import io.swagger.data.AvailablePaymentMethodData;
 import io.swagger.data.CheckoutData;
 import io.swagger.model.Address;
 import io.swagger.model.AvailableCountries;
+import io.swagger.model.AvailablePaymentMethod;
 import io.swagger.model.AvailablePaymentMethodList;
 import io.swagger.model.AvailableShippingMethodList;
 import io.swagger.model.Cart;
@@ -19,17 +23,15 @@ import io.swagger.model.Checkout;
 import io.swagger.model.CustomerAttributes;
 import io.swagger.model.PaymentMethod;
 import io.swagger.model.Product;
-import io.swagger.api.NotFoundException;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-04-21T21:14:37.723Z")
 
 @Controller
 public class CheckoutApiController implements CheckoutApi {
 
+	
     public ResponseEntity<AvailableCountries> checkoutAvailableCountriesGet() {
     	AvailableCountries availableCountries = AvailableCountriesData.getData();
-//    	System.out.println(availableCountries);
-
         return ResponseEntity.ok().body(availableCountries);
     }
 
@@ -62,7 +64,6 @@ public class CheckoutApiController implements CheckoutApi {
 
     public ResponseEntity<Checkout> checkoutCheckoutIdGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) throws Exception {
     	Checkout checkout = CheckoutData.getById(checkoutId);
-    	System.out.println(checkout);
 		if (checkout != null) {
 			return ResponseEntity.ok().body(checkout);
 		} else {
@@ -84,9 +85,17 @@ public class CheckoutApiController implements CheckoutApi {
     }
 
     public ResponseEntity<Void> checkoutCheckoutIdPayPost(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Payment method" ,required=true ) @RequestBody PaymentMethod body) {
-        // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        @ApiParam(value = "Payment method" ,required=true ) @RequestBody PaymentMethod body) throws Exception {
+    	Checkout checkout = CheckoutData.getById(checkoutId);
+		if (checkout != null) {
+			AvailablePaymentMethod availablePaymentMethod = AvailablePaymentMethodData.createAvailablePaymentMethod(body);
+			if (checkout.getAvailablePaymentMethods() == null) checkout.setAvailablePaymentMethods(new ArrayList<AvailablePaymentMethod>());
+			checkout.getAvailablePaymentMethods().add(availablePaymentMethod);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+			throw new NotFoundException(io.swagger.api.ApiResponseMessage.ERROR, "Checkout " + checkoutId + " not found");
+		}
+    	
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdShippingAddressPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
@@ -102,8 +111,10 @@ public class CheckoutApiController implements CheckoutApi {
     }
 
     public ResponseEntity<Checkout> createCart(@ApiParam(value = "Includes billing and products info" ,required=true ) @RequestBody Cart cart) {
-        // do some magic!
-        return new ResponseEntity<Checkout>(HttpStatus.OK);
+    	String checkoutId = java.util.UUID.randomUUID().toString();
+    	Checkout checkout = CheckoutData.createCheckout(checkoutId, cart, null, null, null, null);
+    	CheckoutData.addCheckout(checkout);
+        return ResponseEntity.ok().body(checkout);
     }
 
     public ResponseEntity<Checkout> createItem(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,

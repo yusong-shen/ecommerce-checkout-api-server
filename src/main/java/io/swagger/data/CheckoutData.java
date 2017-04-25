@@ -19,7 +19,7 @@ public class CheckoutData {
 		checkouts.add(createCheckout("1", cart,  new ArrayList<AvailableShippingMethod>(),  new ArrayList<AvailablePaymentMethod>(), null, null));
 	}
 
-	static Checkout createCheckout(String checkoutId, Cart cart, List<AvailableShippingMethod> availableShippingMethods,
+	public static Checkout createCheckout(String checkoutId, Cart cart, List<AvailableShippingMethod> availableShippingMethods,
 			List<AvailablePaymentMethod> availablePaymentMethods, CheckoutTotals totals, CheckoutTotals merchantTotals) {
 		Checkout checkout = new Checkout();
 		checkout.setCheckoutId(checkoutId);
@@ -38,5 +38,10 @@ public class CheckoutData {
 			}
 		}
 		return null;
+	}
+	
+	public static boolean addCheckout(Checkout checkout) {
+		if (checkout == null) return false;
+		return checkouts.add(checkout);
 	}
 }

@@ -131,7 +131,7 @@ public interface CheckoutApi {
     @RequestMapping(value = "/checkout/{checkoutId}/pay",
         method = RequestMethod.POST)
     ResponseEntity<Void> checkoutCheckoutIdPayPost(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Payment method" ,required=true ) @RequestBody PaymentMethod body);
+        @ApiParam(value = "Payment method" ,required=true ) @RequestBody PaymentMethod body) throws Exception;
 
 
     @ApiOperation(value = "Update the shipping address", notes = "", response = Checkout.class, tags={ "cart", })
