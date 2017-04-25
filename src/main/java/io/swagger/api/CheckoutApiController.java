@@ -11,6 +11,7 @@ import io.swagger.model.PaymentMethod;
 import io.swagger.model.Product;
 
 import io.swagger.annotations.*;
+import io.swagger.data.AvailableCountriesData;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,10 @@ public class CheckoutApiController implements CheckoutApi {
 
     public ResponseEntity<AvailableCountries> checkoutAvailableCountriesGet() {
         // do some magic!
-        return new ResponseEntity<AvailableCountries>(HttpStatus.OK);
+    	AvailableCountriesData data = new AvailableCountriesData();
+    	AvailableCountries availableCountries = data.getData();
+    	
+        return ResponseEntity.ok().body(availableCountries);
     }
 
     public ResponseEntity<Void> checkoutAvailableLanguagesGet() {
