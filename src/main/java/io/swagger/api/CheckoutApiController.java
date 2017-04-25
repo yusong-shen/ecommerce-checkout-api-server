@@ -1,5 +1,15 @@
 package io.swagger.api;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import io.swagger.annotations.ApiParam;
+import io.swagger.data.AvailableCountriesData;
+import io.swagger.data.CheckoutData;
 import io.swagger.model.Address;
 import io.swagger.model.AvailableCountries;
 import io.swagger.model.AvailablePaymentMethodList;
@@ -9,22 +19,7 @@ import io.swagger.model.Checkout;
 import io.swagger.model.CustomerAttributes;
 import io.swagger.model.PaymentMethod;
 import io.swagger.model.Product;
-
-import io.swagger.annotations.*;
-import io.swagger.data.AvailableCountriesData;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
+import io.swagger.api.NotFoundException;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-04-21T21:14:37.723Z")
 
@@ -32,10 +27,9 @@ import java.util.List;
 public class CheckoutApiController implements CheckoutApi {
 
     public ResponseEntity<AvailableCountries> checkoutAvailableCountriesGet() {
-        // do some magic!
-    	AvailableCountriesData data = new AvailableCountriesData();
-    	AvailableCountries availableCountries = data.getData();
-    	
+    	AvailableCountries availableCountries = AvailableCountriesData.getData();
+//    	System.out.println(availableCountries);
+
         return ResponseEntity.ok().body(availableCountries);
     }
 
@@ -66,9 +60,14 @@ public class CheckoutApiController implements CheckoutApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Checkout> checkoutCheckoutIdGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) {
-        // do some magic!
-        return new ResponseEntity<Checkout>(HttpStatus.OK);
+    public ResponseEntity<Checkout> checkoutCheckoutIdGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) throws Exception {
+    	Checkout checkout = CheckoutData.getById(checkoutId);
+    	System.out.println(checkout);
+		if (checkout != null) {
+			return ResponseEntity.ok().body(checkout);
+		} else {
+			throw new NotFoundException(io.swagger.api.ApiResponseMessage.ERROR, "Checkout " + checkout + " not found");
+		}
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdItemsItemIdDelete(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
