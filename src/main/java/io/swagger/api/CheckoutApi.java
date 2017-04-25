@@ -103,30 +103,32 @@ public interface CheckoutApi {
     @ApiOperation(value = "Delete an item from the shopping cart", notes = "", response = Checkout.class, tags={ "cart", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
+        @ApiResponse(code = 404, message = "The cart does not exists", response = Checkout.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Checkout.class) })
-    @RequestMapping(value = "/checkout/{checkoutId}/items/{item_id}",
+    @RequestMapping(value = "/checkout/{checkoutId}/items/{itemId}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Checkout> checkoutCheckoutIdItemsItemIdDelete(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Item Id",required=true ) @PathVariable("itemId") String itemId);
+        @ApiParam(value = "Item Id",required=true ) @PathVariable("itemId") String itemId) throws Exception;
 
 
     @ApiOperation(value = "Update an existing item from the shopping cart", notes = "", response = Checkout.class, tags={ "cart", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
+        @ApiResponse(code = 404, message = "The cart does not exists", response = Checkout.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Checkout.class) })
-    @RequestMapping(value = "/checkout/{checkoutId}/items/{item_id}",
+    @RequestMapping(value = "/checkout/{checkoutId}/items/{itemId}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Checkout> checkoutCheckoutIdItemsItemIdPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
         @ApiParam(value = "Item Id",required=true ) @PathVariable("itemId") String itemId,
-        @ApiParam(value = "Item" ,required=true ) @RequestBody Product item);
+        @ApiParam(value = "Item" ,required=true ) @RequestBody Product item) throws Exception;
 
 
     @ApiOperation(value = "Pay the cart total", notes = "", response = Void.class, tags={ "cart", })
     @ApiResponses(value = { 
+    	@ApiResponse(code = 404, message = "The cart does not exists", response = Checkout.class),
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     @RequestMapping(value = "/checkout/{checkoutId}/pay",
         method = RequestMethod.POST)

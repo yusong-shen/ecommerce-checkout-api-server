@@ -72,9 +72,14 @@ public class CheckoutApiController implements CheckoutApi {
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdItemsItemIdDelete(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Item Id",required=true ) @PathVariable("itemId") String itemId) {
-        // do some magic!
-        return new ResponseEntity<Checkout>(HttpStatus.OK);
+        @ApiParam(value = "Item Id",required=true ) @PathVariable("itemId") String itemId) throws Exception {
+    	Checkout checkout = CheckoutData.getById(checkoutId);
+		if (checkout != null) {
+			CheckoutData.deleteItemById(checkoutId, itemId);
+			return ResponseEntity.ok().body(checkout);
+		} else {
+			throw new NotFoundException(io.swagger.api.ApiResponseMessage.ERROR, "Checkout " + checkoutId + " not found");
+		}
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdItemsItemIdPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
