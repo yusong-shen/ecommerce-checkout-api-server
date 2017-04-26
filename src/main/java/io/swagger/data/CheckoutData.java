@@ -10,6 +10,7 @@ import io.swagger.model.AvailableShippingMethod;
 import io.swagger.model.Cart;
 import io.swagger.model.Checkout;
 import io.swagger.model.CheckoutTotals;
+import io.swagger.model.CustomerAttributes;
 import io.swagger.model.Product;
 
 public class CheckoutData {
@@ -124,6 +125,16 @@ public class CheckoutData {
 			if (!checkout.getCheckoutId().equals(checkoutId)) continue;
 			if (checkout.getCart() == null) continue;
 			checkout.getCart().setShippingMethod(shippingMethod);;
+			return true;
+		}
+		return false;		
+	}
+
+	public static boolean updateCustomerAttributes(String checkoutId, CustomerAttributes customerAttributes) {
+		for (Checkout checkout : checkouts) {
+			if (!checkout.getCheckoutId().equals(checkoutId)) continue;
+			if (checkout.getCart() == null) continue;
+			checkout.getCart().setCustomerAttributes(customerAttributes);
 			return true;
 		}
 		return false;		

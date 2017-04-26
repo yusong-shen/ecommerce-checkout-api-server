@@ -59,7 +59,7 @@ public interface CheckoutApi {
     @ApiOperation(value = "Update the billing address", notes = "", response = Checkout.class, tags={ "cart", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = Checkout.class) })
+        @ApiResponse(code = 404, message = "Cart not found", response = Checkout.class) })
     @RequestMapping(value = "/checkout/{checkoutId}/billingAddress",
         produces = { "application/json" }, 
         consumes = { "application/json" },
@@ -70,11 +70,14 @@ public interface CheckoutApi {
 
     @ApiOperation(value = "Set or update customer attributes", notes = "", response = Void.class, tags={ "cart", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Sucess", response = Void.class) })
-    @RequestMapping(value = "/checkout/{checkoutId}/customerAttributes",
-        method = RequestMethod.PUT)
-    ResponseEntity<Void> checkoutCheckoutIdCustomerAttributesPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Customer attributes" ,required=true ) @RequestBody CustomerAttributes customerAttributes);
+            @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
+            @ApiResponse(code = 404, message = "Cart not found", response = Checkout.class) })
+        @RequestMapping(value = "/checkout/{checkoutId}/customerAttributes",
+            produces = { "application/json" }, 
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)    
+    ResponseEntity<Checkout> checkoutCheckoutIdCustomerAttributesPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
+        @ApiParam(value = "Customer attributes" ,required=true ) @RequestBody CustomerAttributes customerAttributes) throws Exception;
 
 
     @ApiOperation(value = "Get an existing cart", notes = "", response = Checkout.class, tags={ "cart", })
