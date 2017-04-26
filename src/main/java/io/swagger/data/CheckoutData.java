@@ -108,4 +108,14 @@ public class CheckoutData {
 		}
 		return false;
 	}
+
+	public static boolean updateShippingAddress(String checkoutId, Address body) {
+		for (Checkout checkout : checkouts) {
+			if (!checkout.getCheckoutId().equals(checkoutId)) continue;
+			if (checkout.getCart() == null) continue;
+			checkout.getCart().setShippingAddress(body);
+			return true;
+		}
+		return false;		
+	}
 }

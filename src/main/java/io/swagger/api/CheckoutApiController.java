@@ -125,9 +125,14 @@ public class CheckoutApiController implements CheckoutApi {
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdShippingAddressPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Shipping address" ,required=true ) @RequestBody Address body) {
-        // TODO
-        return new ResponseEntity<Checkout>(HttpStatus.OK);
+        @ApiParam(value = "Shipping address" ,required=true ) @RequestBody Address body) throws Exception {
+    	Checkout checkout = CheckoutData.getById(checkoutId);
+		if (checkout != null) {
+			CheckoutData.updateShippingAddress(checkoutId, body);
+			return ResponseEntity.ok().body(checkout);
+		} else {
+			throw new NotFoundException(io.swagger.api.ApiResponseMessage.ERROR, "Checkout " + checkout + " not found");
+		} 
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdShippingMethodPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,

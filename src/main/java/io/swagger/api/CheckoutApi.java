@@ -135,7 +135,7 @@ public interface CheckoutApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Checkout> checkoutCheckoutIdShippingAddressPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Shipping address" ,required=true ) @RequestBody Address body);
+        @ApiParam(value = "Shipping address" ,required=true ) @RequestBody Address body) throws Exception;
 
 
     @ApiOperation(value = "Set or update the shipping method", notes = "", response = Checkout.class, tags={ "cart", })
