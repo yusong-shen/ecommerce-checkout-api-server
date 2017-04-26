@@ -12,7 +12,7 @@ public class CartData {
 
 	
 	static Cart createCart(Address billingAddress, Address shippingAddress, String domesticShippingCharge, 
-			Integer shippingMethod, String merchantCurrency, Boolean chargeInsurance, List<Product> products, 
+			String shippingMethod, String merchantCurrency, Boolean chargeInsurance, List<Product> products, 
 			CustomerAttributes customerAttributes) {
 		Cart cart = new Cart();
 		cart.setBillingAddress(billingAddress);

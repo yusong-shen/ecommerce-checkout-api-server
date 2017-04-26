@@ -27,7 +27,7 @@ public class Cart   {
   private String domesticShippingCharge = null;
 
   @JsonProperty("shipping_method")
-  private Integer shippingMethod = null;
+  private String shippingMethod = null;
 
   @JsonProperty("merchant_currency")
   private String merchantCurrency = null;
@@ -95,7 +95,7 @@ public class Cart   {
     this.domesticShippingCharge = domesticShippingCharge;
   }
 
-  public Cart shippingMethod(Integer shippingMethod) {
+  public Cart shippingMethod(String shippingMethod) {
     this.shippingMethod = shippingMethod;
     return this;
   }
@@ -105,12 +105,12 @@ public class Cart   {
    * @return shippingMethod
   **/
   @ApiModelProperty(value = "")
-  public Integer getShippingMethod() {
+  public String getShippingMethod() {
     return shippingMethod;
   }
 
-  public void setShippingMethod(Integer shippingMethod) {
-    this.shippingMethod = shippingMethod;
+  public void setShippingMethod(String shippingMethod2) {
+    this.shippingMethod = shippingMethod2;
   }
 
   public Cart merchantCurrency(String merchantCurrency) {

@@ -116,6 +116,16 @@ public class CheckoutData {
 			checkout.getCart().setShippingAddress(body);
 			return true;
 		}
+		return false;
+	}
+
+	public static boolean updateShippingMethod(String checkoutId, String shippingMethod) {
+		for (Checkout checkout : checkouts) {
+			if (!checkout.getCheckoutId().equals(checkoutId)) continue;
+			if (checkout.getCart() == null) continue;
+			checkout.getCart().setShippingMethod(shippingMethod);;
+			return true;
+		}
 		return false;		
 	}
 }

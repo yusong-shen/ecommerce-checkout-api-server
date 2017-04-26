@@ -140,11 +140,12 @@ public interface CheckoutApi {
 
     @ApiOperation(value = "Set or update the shipping method", notes = "", response = Checkout.class, tags={ "cart", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class) })
+        @ApiResponse(code = 200, message = "Checkout context", response = Checkout.class),
+        @ApiResponse(code = 404, message = "The cart does not exists", response = Checkout.class)})
     @RequestMapping(value = "/checkout/{checkoutId}/shippingMethod",
         method = RequestMethod.PUT)
     ResponseEntity<Checkout> checkoutCheckoutIdShippingMethodPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Shipping method (0: Express, 1: Standard, 2: Economy)", required = true) @RequestParam(value = "shippingMethod", required = true) String shippingMethod);
+        @ApiParam(value = "Shipping method (0: Express, 1: Standard, 2: Economy)", required = true) @RequestParam(value = "shippingMethod", required = true) String shippingMethod) throws Exception;
 
 
     @ApiOperation(value = "Create a possibly empty shopping cart", notes = "", response = Checkout.class, tags={ "cart", })
