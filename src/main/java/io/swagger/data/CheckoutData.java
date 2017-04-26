@@ -60,14 +60,25 @@ public class CheckoutData {
 		return null;
 	}
 	
-	public static Product updateItemById(String id, String itemId, Product item) {
+	public static boolean updateItemById(String id, String itemId, Product item) {
 		for (Checkout checkout : checkouts) {
 			if (!checkout.getCheckoutId().equals(id)) continue;
 			if (checkout.getCart() == null || checkout.getCart().getProducts() == null) continue;
 			List<Product> items = checkout.getCart().getProducts();
-			// TODO
+			// first find the first matched position
+			int index = -1;
+			for (int i = 0; i < items.size(); i++) {
+				Product p = items.get(i);
+				if (p.getId().equals(itemId)) {
+					index = i;
+				}
+			}
+			if (index != -1) {
+				items.set(index, item);
+				return true;
+			}
 		}
-		return null;
+		return false;
 	}
 	
 	public static Product deleteItemById(String id, String itemId) {
