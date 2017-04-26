@@ -65,7 +65,7 @@ public interface CheckoutApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Checkout> checkoutCheckoutIdBillingAddressPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
-        @ApiParam(value = "Cart object that needs to be updated" ,required=true ) @RequestBody Address body);
+        @ApiParam(value = "Cart object that needs to be updated" ,required=true ) @RequestBody Address body) throws Exception;
 
 
     @ApiOperation(value = "Set or update customer attributes", notes = "", response = Void.class, tags={ "cart", })

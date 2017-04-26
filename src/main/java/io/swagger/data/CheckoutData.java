@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import io.swagger.model.Address;
 import io.swagger.model.AvailablePaymentMethod;
 import io.swagger.model.AvailableShippingMethod;
 import io.swagger.model.Cart;
@@ -96,5 +97,15 @@ public class CheckoutData {
 			
 		}
 		return null;
+	}
+
+	public static boolean updateBillingAddress(String checkoutId, Address body) {
+		for (Checkout checkout : checkouts) {
+			if (!checkout.getCheckoutId().equals(checkoutId)) continue;
+			if (checkout.getCart() == null) continue;
+			checkout.getCart().setBillingAddress(body);
+			return true;
+		}
+		return false;
 	}
 }
