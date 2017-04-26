@@ -53,7 +53,7 @@ public interface CheckoutApi {
     @RequestMapping(value = "/checkout/{checkoutId}/availableShippingMethods",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<AvailableShippingMethodList> checkoutCheckoutIdAvailableShippingMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId);
+    ResponseEntity<AvailableShippingMethodList> checkoutCheckoutIdAvailableShippingMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) throws Exception;
 
 
     @ApiOperation(value = "Update the billing address", notes = "", response = Checkout.class, tags={ "cart", })

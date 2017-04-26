@@ -14,11 +14,13 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.data.AvailableCountriesData;
 import io.swagger.data.AvailablePaymentMethodData;
 import io.swagger.data.AvailablePaymentMethodListData;
+import io.swagger.data.AvailableShippingMethodListData;
 import io.swagger.data.CheckoutData;
 import io.swagger.model.Address;
 import io.swagger.model.AvailableCountries;
 import io.swagger.model.AvailablePaymentMethod;
 import io.swagger.model.AvailablePaymentMethodList;
+import io.swagger.model.AvailableShippingMethod;
 import io.swagger.model.AvailableShippingMethodList;
 import io.swagger.model.Cart;
 import io.swagger.model.Checkout;
@@ -48,9 +50,15 @@ public class CheckoutApiController implements CheckoutApi {
 		} 	
     }
 
-    public ResponseEntity<AvailableShippingMethodList> checkoutCheckoutIdAvailableShippingMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) {
-        // TODO
-        return new ResponseEntity<AvailableShippingMethodList>(HttpStatus.OK);
+    public ResponseEntity<AvailableShippingMethodList> checkoutCheckoutIdAvailableShippingMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) throws Exception {
+    	Checkout checkout = CheckoutData.getById(checkoutId);
+		if (checkout != null) {
+			List<AvailableShippingMethod> lst = checkout.getAvailableShippingMethods();
+			AvailableShippingMethodList availableShippingMethodList = AvailableShippingMethodListData.create(lst);
+			return ResponseEntity.ok().body(availableShippingMethodList);
+		} else {
+			throw new NotFoundException(io.swagger.api.ApiResponseMessage.ERROR, "Checkout " + checkout + " not found");
+		} 
     }
 
     public ResponseEntity<Checkout> checkoutCheckoutIdBillingAddressPut(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId,
