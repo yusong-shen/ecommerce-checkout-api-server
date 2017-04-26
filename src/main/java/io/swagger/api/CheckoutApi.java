@@ -36,23 +36,14 @@ public interface CheckoutApi {
     ResponseEntity<AvailableCountries> checkoutAvailableCountriesGet();
 
 
-    @ApiOperation(value = "Get available languages", notes = "", response = Void.class, tags={ "cart", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Sucess", response = Void.class) })
-    @RequestMapping(value = "/checkout/availableLanguages",
-        method = RequestMethod.GET)
-    ResponseEntity<Void> checkoutAvailableLanguagesGet();
-
-
     @ApiOperation(value = "Get available payment methods", notes = "", response = AvailablePaymentMethodList.class, tags={ "cart", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "List of payment methods", response = AvailablePaymentMethodList.class),
         @ApiResponse(code = 404, message = "Cart not found", response = AvailablePaymentMethodList.class) })
     @RequestMapping(value = "/checkout/{checkoutId}/availablePaymentMethods",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<AvailablePaymentMethodList> checkoutCheckoutIdAvailablePaymentMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId);
+    ResponseEntity<AvailablePaymentMethodList> checkoutCheckoutIdAvailablePaymentMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId) throws Exception;
 
 
     @ApiOperation(value = "Get shipping info", notes = "", response = AvailableShippingMethodList.class, tags={ "cart", })
@@ -61,7 +52,6 @@ public interface CheckoutApi {
         @ApiResponse(code = 404, message = "Cart not found", response = AvailableShippingMethodList.class) })
     @RequestMapping(value = "/checkout/{checkoutId}/availableShippingMethods",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<AvailableShippingMethodList> checkoutCheckoutIdAvailableShippingMethodsGet(@ApiParam(value = "Checkout Id",required=true ) @PathVariable("checkoutId") String checkoutId);
 
