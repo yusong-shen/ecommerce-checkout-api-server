@@ -18,8 +18,16 @@ public class CheckoutData {
 	static List<Checkout> checkouts = new ArrayList<>();
 	
 	static {
+		// hardcoded Checkout instance for testing
 		Cart cart = CartData.createCart(null, null, null, null, null, null, new ArrayList<Product>(), null);
-		checkouts.add(createCheckout("1", cart,  new ArrayList<AvailableShippingMethod>(),  new ArrayList<AvailablePaymentMethod>(), null, null));
+    	Checkout checkoutDummy = CheckoutData.createCheckout("1", cart, new ArrayList<AvailableShippingMethod>(), new ArrayList<AvailablePaymentMethod>(), null, null);
+    	AvailableShippingMethod sm1 = new AvailableShippingMethod();
+    	sm1.setCode("0"); sm1.setName("Express");
+    	checkoutDummy.addAvailableShippingMethodsItem(sm1);
+    	AvailablePaymentMethod pm1 = new AvailablePaymentMethod();
+    	pm1.setCode("0"); pm1.setName("Credit Card");
+    	checkoutDummy.addAvailablePaymentMethodsItem(pm1);
+    	checkouts.add(checkoutDummy);
 	}
 
 	public static Checkout createCheckout(String checkoutId, Cart cart, List<AvailableShippingMethod> availableShippingMethods,

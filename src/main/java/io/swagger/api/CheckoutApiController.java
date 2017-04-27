@@ -154,7 +154,14 @@ public class CheckoutApiController implements CheckoutApi {
 
     public ResponseEntity<Checkout> createCart(@ApiParam(value = "Includes billing and products info" ,required=true ) @RequestBody Cart cart) {
     	String checkoutId = java.util.UUID.randomUUID().toString();
-    	Checkout checkout = CheckoutData.createCheckout(checkoutId, cart, null, null, null, null);
+    	// set default available payment method and shipping method
+    	Checkout checkout = CheckoutData.createCheckout(checkoutId, cart, new ArrayList<AvailableShippingMethod>(), new ArrayList<AvailablePaymentMethod>(), null, null);
+    	AvailableShippingMethod sm1 = new AvailableShippingMethod();
+    	sm1.setCode("0"); sm1.setName("Express");
+    	checkout.addAvailableShippingMethodsItem(sm1);
+    	AvailablePaymentMethod pm1 = new AvailablePaymentMethod();
+    	pm1.setCode("0"); pm1.setName("Credit Card");
+    	checkout.addAvailablePaymentMethodsItem(pm1);
     	CheckoutData.addCheckout(checkout);
         return ResponseEntity.ok().body(checkout);
     }
