@@ -1,4 +1,4 @@
-# Swagger generated server
+# ECommerce Checkout Flow API Java Spring Server
 
 Spring Boot Server 
 
@@ -12,7 +12,35 @@ The underlying library integrating swagger to SpringBoot is [springfox](https://
 
 Start your server as an simple java application  
 
-You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8080/  
+You can view the api documentation in swagger-ui by pointing to
+http://localhost:8080/{server.contextPath}
 
-Change default port value in application.properties
+Change default port value and server.contextPath in application.properties
+
+## Run it on eclipse
+import -> General -> Projects from folder or archive
+Run as -> Spring Boot App
+
+## Run it on command line
+```sh
+mvn clean package
+java -jar target/swagger-spring-1.0.0.jar
+```
+## Deploy to Heroku
+Create a file called `Procfile` and Add follow line 
+```
+web: java -Dserver.port=$PORT -jar target/swagger-spring-1.0.0.jar
+```
+
+To test it on local :
+```sh
+heroku local web
+```
+
+To delpoy to heroku :
+```sh
+heroku login
+heroku create
+git push heroku master
+```
+
